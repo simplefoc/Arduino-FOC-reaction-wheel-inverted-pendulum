@@ -10,4 +10,4 @@ jobs:
     - name: Compile all examples
       uses: ArminJo/arduino-test-compile@v2
       with:
-        required-libraries: SimpleFOC, PciManger
+       libraries: SimpleFOC, PciManger
