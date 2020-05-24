@@ -9,3 +9,5 @@ jobs:
       uses: actions/checkout@v2
     - name: Compile all examples
       uses: ArminJo/arduino-test-compile@v2
+      with:
+        required-libraries: SimpleFOC, PciManger
