@@ -92,14 +92,15 @@ The main features these encoders are:
  - Low-cost `~20$`
 
 ## BLDC driver
-In this project I used the [SimpleFOCShield board](https://askuric.github.io/Arduino-FOC/arduino_simplefoc_shield_showcase) which is basically an Arduino shield which enables the usage of the FOC algorithm with the BLDC motors. It is practically plug&play in combination with the Arduino [SimpleFOC library](https://askuric.github.io/Ard.uino-FOC/arduino_simplefoc_library_showcase).
+In this project I used the [SimpleFOCShield board](https://askuric.github.io/Arduino-FOC/arduino_simplefoc_shield_showcase) which is basically an Arduino shield which enables the usage of the FOC algorithm with the BLDC motors. It is practically plug & play in combination with the Arduino [SimpleFOC library](https://askuric.github.io/Ard.uino-FOC/arduino_simplefoc_library_showcase).
 
-There are quiet a few boards out there that are in short a triple h-bridge motor drivers and the SimpleFOC library will be compatible with most of them. But for most of them the hardware setup will be a bit more complex. Here are some examples of the possible bldc drives you could use:
+There are quiet a few boards out there that are in short a triple H-bridge motor drivers and the SimpleFOC library will be compatible with most of them. But for most of them the hardware setup will be a bit more complex. Here are some examples of the possible BLDC drives you could use:
 Examples | Description | Link | Price
 ---- | ---- | ---- | ---
-[<img src="extras/Images/shield_top_v13.png" style="height:100px">](https://askuric.github.io/simplefoc_shield_product)| Arduino Simple FOC shield | [More info](https://askuric.github.io/simplefoc_shield_product) | 25$
-[<img src="extras/Images/l6234.jpg" style="height:100px">](https://www.ebay.com/itm/L6234-Breakout-Board/153204519965?hash=item23abb3741d:g:LE4AAOSwe35bctgg) | Dorotek L6234 breakout board| [Drotek](https://store-drotek.com/212-brushless-gimbal-controller-l6234.html), [Ebay](https://www.ebay.fr/itm/L6234-Breakout-Board-/153204519965) | 30$
-[<img src="extras/Images/pinout.jpg" style="height:100px">](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | HMBGC V2.2 | [Ebay](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | 20$
+[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/shield_top_v13.png" style="height:100px">](https://askuric.github.io/simplefoc_shield_product)| Arduino SimpleFOCShield | [More info](https://askuric.github.io/simplefoc_shield_product) | 25$
+[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/l6234.jpg" style="height:100px">](https://www.ebay.com/itm/L6234-Breakout-Board/153204519965?hash=item23abb3741d:g:LE4AAOSwe35bctgg) | Dorotek L6234 breakout board| [Drotek](https://store-drotek.com/212-brushless-gimbal-controller-l6234.html), [Ebay](https://www.ebay.fr/itm/L6234-Breakout-Board-/153204519965) | 30$
+[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/pinout.jpg" style="height:100px">](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | HMBGC V2.2 | [Ebay](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | 20$
 
 
-# Electrical connections
+# The code
+
