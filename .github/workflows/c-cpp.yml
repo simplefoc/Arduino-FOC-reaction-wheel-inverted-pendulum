@@ -1,4 +1,4 @@
-name: TestCompile
+name: Library Compile
 on: push
 jobs:
   build:
@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@master
     - name: Compile all examples
-      uses: ArminJo/arduino-test-compile@v2
+      uses: ArminJo/arduino-test-compile@v1.0.0
       with:
-       libraries: SimpleFOC, PciManger
+        libraries:  SimpleFOC, PciManager
