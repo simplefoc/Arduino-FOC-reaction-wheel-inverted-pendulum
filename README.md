@@ -101,6 +101,9 @@ Examples | Description | Link | Price
 [<img src="https://askuric.github.io/Arduino-FOC/extras/Images/l6234.jpg" height="100px">](https://www.ebay.com/itm/L6234-Breakout-Board/153204519965?hash=item23abb3741d:g:LE4AAOSwe35bctgg) | Dorotek L6234 breakout board| [Drotek](https://store-drotek.com/212-brushless-gimbal-controller-l6234.html), [Ebay](https://www.ebay.fr/itm/L6234-Breakout-Board-/153204519965) | 30$
 [<img src="https://askuric.github.io/Arduino-FOC/extras/Images/pinout.jpg" height="100px">](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | HMBGC V2.2 | [Ebay](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | 20$
 
+## Table mount
+There are surely many ways to mount this pendulum to the stable surface, in my case I hade on my hands a very robust vacuum suction cup holder which works perfectly for this application. It is not the cheapest solution though.
+<img src="images/vacuum.jpg" height="100px"> | Delkin Fat Gecko | [Ebay](https://www.ebay.com/itm/Delkin-Fat-Gecko-Stealth-Vacuum-Light-Mount-Holds-4-LB-Free-US-Shipping/141019370583?hash=item20d568d457:g:O6wAAMXQXMRR6EZ7) | 30$
+---- | ---- | ---- | ----
 
-# The code
-
+The only important thing is that the pendulum base is fixed, everything else is the design choice :D 
