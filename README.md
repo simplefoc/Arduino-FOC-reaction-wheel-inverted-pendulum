@@ -9,7 +9,11 @@ This is a project of designing and controlling the reaction wheel inverted pendu
     <img src="images/stabilization.gif" height="230px">
 </p>
 
-This is a very fun project in many ways, but for me the most exciting part was the ability to use the Field Oriented Control algorithm. 
+This is a very fun project in many ways, and it is intended:
+- Students in search for a good testing platform for their advanced algorithms
+- Everyone with a bit of free time and a motivation to create something cool :D
+
+But for me, the most exciting part of this project was the ability to use the Field Oriented Control algorithm. 
 
 **The main benefits of using the BLDC motor in this project are:**
 -  High torque to weight ratio
@@ -113,8 +117,8 @@ The only important thing is that the pendulum base is fixed, everything else is 
 The full arduino code is in the `Arduino` directory.
 ### Required libraries
 The code used for this project is based on the Arduino [SimpleFOC library](https://github.com/askuric/Arduino-FOC).
-
 To install the library, you can follow the steps on the [link](https://askuric.github.io/Arduino-FOC/library_download).
+ 
 The code additionally uses the [PciManager](https://github.com/prampec/arduino-pcimanager) library for software interrupts, since Arduino Uno doesn't have enough hardware interrupt pins.  
 
 ### Running the code
