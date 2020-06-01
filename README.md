@@ -35,7 +35,7 @@ So far, FOC has been restricted to high-end applications due to the complexity a
 # What are the necessary components?
 Due to the using of the brushless motor and the SimpleFOC shield, this might be one of the simplest hardware setups of the reaction wheel inverted pendulum there is.
 <p align="center">
-    <img src="images/components.gif" height="400px">
+    <img src="images/components.gif" height="350px">
     <img src="images/img1.png" height="300px">
 </p>
 
@@ -120,16 +120,329 @@ There are surely many ways to mount this pendulum to the stable surface, in my c
 
 The only important thing is that the pendulum base is fixed, everything else is the design choice :D 
 
-# Arduino code
-The full arduino code is in the `Arduino` directory.
-### Required libraries
-The code used for this project is based on the Arduino [SimpleFOC library](https://github.com/askuric/Arduino-FOC).
-To install the library, you can follow the steps on the [link](https://askuric.github.io/Arduino-FOC/library_download).
- 
-The code additionally uses the [PciManager](https://github.com/prampec/arduino-pcimanager) library for software interrupts, since Arduino Uno doesn't have enough hardware interrupt pins.  
 
-### Running the code
-Once you have installed the libraries, just download the code of the `simplefoc_inverted_pendulim.ino` connect the motor, encoders and the power supply and upload the code to the arduino. 
+# Connecting all the components
+In this project all the electronics components are:
+
+[Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) | [Arduino <span class="simple">Simple<span class="foc">FOC</span>Shield</span>](arduino_simplefoc_shield_showcase) | 2x [2AMT 103 encoder](https://www.mouser.fr/ProductDetail/CUI-Devices/AMT103-V?qs=%2Fha2pyFaduiAsBlScvLoAWHUnKz39jAIpNPVt58AQ0PVb84dpbt53g%3D%3D) | [iPower GM4108-120T](https://shop.iflight-rc.com/index.php?route=product/product&product_id=217&search=GM4108H-120T)
+--- | --- | --- | --- 
+<img src="images/arduino_uno.jpg" style="width:150px"> |  <img src="images/shield_to_v13.jpg" style="width:150px">  | <img src="images/AMT_103.jpg" style="width:150px">  | <img src="images/mot.jpg" style="width:150px"> 
+
+## Encoder 1 (motor)
+- Channels `A` and `B` are connected to the encoder connector `P_ENC`, terminals `A` and `B`. 
+
+## Encoder 2 (pendulum)
+<blockquote > Pinout restriction<br>
+Arduino UNO doesn't have enough hardware interrupt pins for two encoders therefore we need to use the software interrupt library. </blockquote>
+
+- Encoder channels `A` and `B` are connected to the pins `A0` and `A1`.
+
+
+## Motor
+- Motor phases `a`, `b` and `c` are connected directly the motor terminal connector `TB_M1`
+
+<blockquote>Alignment<br> Motor phases <code>a</code>,<code>b</code>,<code>c</code> and encoder channels <code>A</code> and <code>B</code> have to have the same orientation for the algorithm to work. But don't worry about it too much. Connect it initially as you wish and then if the motor locks in place reverse phase <code>a</code> and <code>b</code> of the motor, that should be enough.
+</blockquote>
+
+
+# Arduino code 
+Let's go through the full code for this project and write it together.
+First thing you need to do is include the `SimpleFOC` library:
+
+```cpp
+#include <SimpleFOC.h>
+```
+Make sure you have the library installed. If you still don't have it please check the [get started page](getting_started).
+
+Also in this case, we are using two encoders so we will need to have a software interrupt library.
+I would suggest using `PciManager` library. If you have not installed it yet, you can do it using the Arduino library manager directly. Please check the `Encoder` class [docs](encoder) for more info.
+So once you have it please include it to the sketch:
+```cpp
+// software interrupt library
+#include <PciManager.h>
+#include <PciListenerImp.h>
+```
+
+## Encoder 1 (motor) code 
+
+First we define the `Encoder` class with the A and B channel pins and number of impulses per revolution.
+```cpp
+// define Encoder
+Encoder encoder = Encoder(2, 3, 500);
+```
+Then we define the buffering callback functions.
+```cpp
+// channel A and B callbacks
+void doA(){encoder.handleA();}
+void doB(){encoder.handleB();}
+```
+In the `setup()` function we initialize the encoder and enable interrupts:
+```cpp
+  // initialize encoder hardware
+  encoder.init();
+  // hardware interrupt enable
+  encoder.enableInterrupts(doA, doB);
+```
+And that is it, let's setup the pendulum encoder.
+
+<blockquote class="info">For more configuration parameters of the encoders please check the <code>Encoder</code> class <a href="encoder">docs</a>.</blockquote>
+
+
+## Encoder 2 (pendulum) code
+We define the pendulum as the `Encoder` class with the A and B channel pins and number of impulses per revolution.
+```cpp
+// define Encoder
+Encoder pendulum = Encoder(A0, A1, 1000);
+```
+Then we define the buffering callback functions.
+```cpp
+// channel A and B callbacks
+void doPA(){pendulum.handleA();}
+void doPB(){pendulum.handleB();}
+```
+Next we define the `PciManager` pin change listeners:
+```cpp
+// pin change listeners
+PciListenerImp listenerPA(pendulum.pinA, doPA);
+PciListenerImp listenerPB(pendulum.pinB, doPB);
+``` 
+In the `setup()` function first we initialize the pendulum encoder:
+```cpp
+  // initialize encoder hardware
+  pendulum.init();
+```
+And then instead of calling `pendulum.enableInterrupt()` function we use the `PciManager` library interface to attach the interrupts.
+```cpp
+  // interrupt initialization
+  PciManager.registerListener(&listenerPA);
+  PciManager.registerListener(&listenerPB);
+```
+And that is it the pendulum is ready, let's setup the motor.
+
+## Motor code
+First we need to define the `BLDCMotor` class with the PWM pin numbers, number od pole pairs(`11`) of the motor and the driver enable pin.
+
+```cpp
+// define BLDC motor
+BLDCMotor motor = BLDCMotor(9, 10, 11, 11, 8);
+```
+
+<blockquote class="warning">If you are not sure what your pole pairs number is please check the  <code>find_pole_pairs.ino</code> example.</blockquote>
+
+Then in the `setup()` we configure first the voltage of the power supply if it is not `12` Volts.
+```cpp
+  // power supply voltage
+  // default 12V
+  motor.voltage_power_supply = 12;
+```
+Then we tell the motor which control loop to run by specifying the `motor.controller` variable.
+```cpp
+  // set control loop type to be used
+  // ControlType::voltage
+  // ControlType::velocity
+  // ControlType::angle
+  motor.controller = ControlType::voltage;
+```
+<blockquote class="info">For more information about the voltage control loop please check the  <a href="voltage_loop">doc</a>.</blockquote>
+
+Next we connect the encoder to the motor, do the hardware init and init of the Field Oriented Control.
+```cpp  
+  // link the motor to the sensor
+  motor.linkSensor(&encoder);
+
+  // initialize motor
+  motor.init();
+  // align encoder and start FOC
+  motor.initFOC();
+```
+The last peace of code important for the motor is of course the FOC routine in the `loop` function.
+```cpp
+void loop() {
+  // iterative FOC function
+  motor.loopFOC();
+
+  // iterative function setting and calculating the angle/position loop
+  // this function can be run at much lower frequency than loopFOC function
+  motor.move(target_voltage);
+}
+```
+Now we are able to read the two encoders and set the voltage to the motor, now we need to write the stabilization algorithm.
+<blockquote class="info">For more configuration parameters and control loops please check the <code>BLDCMotor</code> class <a href="motor_initialization">doc</a>.</blockquote>
+
+## Control algorithm code
+
+The control algorithm is divided in two stages. Stabilization and swing-up.
+
+#### Stabilization
+
+In order to stabilize the pendulum we will be using a state space controller which means that it takes in consideration all three variables important for this pendulum system:
+- pendulum angle - `p_angle`
+- pendulum velocity - `p_vel`
+- motor velocity - `m_vel`
+
+The controller code is very simple at the end, it just calculates the linear control rule:
+```cpp
+target_voltage =  40*p_angle + 7*p_vel + 0.3*m_vel;
+```
+The gains `40`,`7` and `0.3` you can imagine as weights, which tell how much we care about these variables. The highest weight is obviously on the pendulum angle and the smallest is on motor velocity that makes sense. Basically if we set `0` to the motor velocity weight, your pendulum will still be stable but your motor will probably never stop spinning. It will always have some velocity. On the other hand if you put it much higher, you will probably prioritize your motor movements over the stability and your pendulum will no longer be stable. So there is a tradeoff here. 
+
+This is a very simple explanation of a relatively complex topic and I would like to point you toward a nice [youtube video](https://www.youtube.com/watch?v=E_RDCFOlJx4) explanation of similar approaches.
+
+Also maybe interesting to say is that for a system like this one there is really no need to run it with the sample times less then 20ms. In my case I have run it at ~25ms, but you can go even to 50ms.
+
+<blockquote class="warning"><p class="heading">NOTE</p> The FOC algorithm <code>motor.loopFOC()</code> will run ~1ms but the control algorithm and the function <code>motor.move()</code> will be downsampled to ~25ms.</blockquote>
+
+#### Swing-up
+
+The swingup implemented in this example is the simples one possible, that is always good, it means that the hardware is well designed so you dont need to make some fancy algorithm to make it work :D
+
+This is hte code of the swing-up:
+```cpp
+target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+```
+What it does really is it checks which direction the pendulum is moving `sign(pendulum.getVelocity())` and sets the very high voltage value `motor.voltage_power_supply*0.4` in the opposite direction (`-`). 
+It means that the algorithm is going to try to accelerate the movement of the pendulum (because the pendulum acceleration is caused as the reaction of the motor acceleration, but inverse direction).
+The voltage value you are setting is something you will tune. I have found that for my pendulum 40% of the maximum voltage was enough to make the pendulum swing up. More voltage would make it swing up too fast and the pendulum would not be able to stabilize when it reaches the top. Much less voltage would not be enough for the pendulum to swing up at all.
+
+#### The integration
+
+Now we jsut need to decide when do we do the swing up and when do we do the stabilization. Basically we need to decide the angle from which we decide that it is not possible to recover and we should proceed with the swing-up. 
+I my case I have decided it is `0.5 radians`, `~30degrees`. 
+
+So the full control algorithm code looks like this:
+```cpp
+// control loop each ~25ms
+  if(loop_count++ > 25){
+    
+    // calculate the pendulum angle 
+    float pendulum_angle = constrainAngle(pendulum.getAngle() + M_PI);
+
+    float target_voltage;
+    if( abs(pendulum_angle) < 0.5 ) // if angle small enough stabilize
+      target_voltage =  40*pendulum_angle + 7*pendulum.getVelocity() + 0.3*motor.shaftVelocity();
+    else // else do swing-up
+      // sets 40% of the maximal voltage to the motor in order to swing up
+      target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+
+    // set the target voltage to the motor
+    motor.move(target_voltage);
+
+    // restart the counter
+    loop_count=0;
+  }
+```
+And that is it guys we can read our pendulum angle, we can control the motor, and we have our control algorithm. Lets write the full code! 
+
+## Full Arduino code
+
+For the full code I have just added a function `constrainAngle()` to constrain the pendulum angle in between -180 and 180 degrees and moved the stabilization part of the controller to the stand-alone function `controllerLQR()`.
+
+
+```cpp
+#include <SimpleFOC.h>
+// software interrupt library
+#include <PciManager.h>
+#include <PciListenerImp.h>
+
+
+// BLDC motor init
+BLDCMotor motor = BLDCMotor(9, 10, 11, 11, 8);
+//Motor encoder init
+Encoder encoder = Encoder(2, 3, 500);
+// interrupt routine 
+void doA(){encoder.handleA();}
+void doB(){encoder.handleB();}
+
+
+// pendulum encoder init
+Encoder pendulum = Encoder(A1, A2, 1000);
+// interrupt routine 
+void doPA(){pendulum.handleA();}
+void doPB(){pendulum.handleB();}
+// PCI manager interrupt
+PciListenerImp listenerPA(pendulum.pinA, doPA);
+PciListenerImp listenerPB(pendulum.pinB, doPB);
+
+void setup() {
+  
+  // initialize motor encoder hardware
+  encoder.init();
+  encoder.enableInterrupts(doA,doB);
+  
+  // init the pendulum encoder
+  pendulum.init();
+  PciManager.registerListener(&listenerPA);
+  PciManager.registerListener(&listenerPB);
+  
+  // set control loop type to be used
+  motor.controller = ControlType::voltage;
+
+  // link the motor to the encoder
+  motor.linkSensor(&encoder);
+  
+  // initialize motor
+  motor.init();
+  // align encoder and start FOC
+  motor.initFOC();
+}
+
+// loop down-sampling counter
+long loop_count = 0;
+
+void loop() {
+  // ~1ms 
+  motor.loopFOC();
+
+  // control loop each ~25ms
+  if(loop_count++ > 25){
+    
+    // calculate the pendulum angle 
+    float pendulum_angle = constrainAngle(pendulum.getAngle() + M_PI);
+
+    float target_voltage;
+    if( abs(pendulum_angle) < 0.5 ) // if angle small enough stabilize
+      target_voltage = controllerLQR(pendulum_angle, pendulum.getVelocity(), motor.shaftVelocity());
+    else // else do swing-up
+      // sets 40% of the maximal voltage to the motor in order to swing up
+      target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+
+    // set the target voltage to the motor
+    motor.move(target_voltage);
+
+    // restart the counter
+    loop_count=0;
+  }
+   
+
+}
+
+// function constraining the angle in between -pi and pi, in degrees -180 and 180
+float constrainAngle(float x){
+    x = fmod(x + M_PI, _2PI);
+    if (x < 0)
+        x += _2PI;
+    return x - M_PI;
+}
+
+// LQR stabilization controller functions
+// calculating the voltage that needs to be set to the motor in order to stabilize the pendulum
+float controllerLQR(float p_angle, float p_vel, float m_vel){
+  // if angle controllable
+  // calculate the control law 
+  // LQR controller u = k*x
+  //  - k = [40, 7, 0.3]
+  //  - x = [pendulum angle, pendulum velocity, motor velocity]' 
+  float u =  40*p_angle + 7*p_vel + 0.3*m_vel;
+  
+  // limit the voltage set to the motor
+  if(abs(u) > motor.voltage_power_supply*0.7) u = sign(u)*motor.voltage_power_supply*0.7;
+  
+  return u;
+}
+```
+This is the full code guys. You can also find it in the `Arduino` directory of the git repo. 
+
+I hope you found this readme (even though very long) helpful and I hope you will be successful in realizing this project as well. It is very very cool! 
 
 # Contact
 Feel free to leave the issue if you experience any problems setting up this project!
