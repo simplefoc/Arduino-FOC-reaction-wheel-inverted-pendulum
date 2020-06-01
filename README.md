@@ -13,8 +13,15 @@ This is a very fun project in many ways, and it is intended:
 - Students in search for a good testing platform for their advanced algorithms
 - Everyone with a bit of free time and a motivation to create something cool :D
 
-But for me, the most exciting part of this project was the ability to use the Field Oriented Control algorithm. 
 
+### YouTube demonstration video :D
+<p align="">
+<a href="https://youtu.be/Ih-izQyXJCI">
+<img src="https://askuric.github.io/Arduino-FOC/extras/Images/youtube_pendulum.png"  height="320px">
+</a>
+</p>
+
+But for me, the most exciting part of this project was the ability to use the Field Oriented Control algorithm. 
 **The main benefits of using the BLDC motor in this project are:**
 -  High torque to weight ratio
    - The lighter the better
