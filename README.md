@@ -37,10 +37,10 @@ So far, FOC has been restricted to high-end applications due to the complexity a
 - [What are the necessary components?](#what-are-the-necessary-components)
   - [3D printed parts](#3d-printed-parts)
   - [Hardware parts](#hardware-parts)
-  - [Actuator components](#electrical-components)
+  - [Electrical components](#electrical-components)
     - [BLDC motor](#bldc-motor)
     - [Position sensors](#position-sensors)
-  - [BLDC driver](#bldc-driver)
+    - [BLDC driver](#bldc-driver)
   - [Table mount](#table-mount)
 - [Connecting all the components](#connecting-all-the-components)
   - [Encoder 1 (motor)](#encoder-1-motor)
@@ -129,7 +129,7 @@ The main features these encoders are:
  - Index pin
  - Low-cost `~20$`
 
-## BLDC driver
+### BLDC driver
 In this project I used the [SimpleFOCShield board](https://askuric.github.io/Arduino-FOC/arduino_simplefoc_shield_showcase) which is basically an Arduino shield which enables the usage of the FOC algorithm with the BLDC motors. It is practically plug & play in combination with the Arduino [SimpleFOC library](https://askuric.github.io/Ard.uino-FOC/arduino_simplefoc_library_showcase).
 
 There are quiet a few boards out there that are in short a triple H-bridge motor drivers and the SimpleFOC library will be compatible with most of them. But for most of them the hardware setup will be a bit more complex. Here are some examples of the possible BLDC drives you could use:
@@ -152,7 +152,7 @@ In this project all the electronics components are:
 
 [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) | [Arduino <span class="simple">Simple<span class="foc">FOC</span>Shield</span>](arduino_simplefoc_shield_showcase) | 2x [AMT 103 encoder](https://www.mouser.fr/ProductDetail/CUI-Devices/AMT103-V?qs=%2Fha2pyFaduiAsBlScvLoAWHUnKz39jAIpNPVt58AQ0PVb84dpbt53g%3D%3D) | [iPower GM4108-120T](https://shop.iflight-rc.com/index.php?route=product/product&product_id=217&search=GM4108H-120T)
 --- | --- | --- | --- 
-<img src="images/arduino_uno.jpg" style="width:150px"> |  <img src="images/shield_to_v13.jpg" style="width:150px">  | <img src="images/AMT_103.jpg" style="width:150px">  | <img src="images/mot.jpg" style="width:150px"> 
+<img src="images/arduino_uno.jpg" width="150px"> |  <img src="images/shield_to_v13.jpg" width="150px">  | <img src="images/AMT_103.jpg" width="150px">  | <img src="images/mot.jpg" width="150px"> 
 
 ## Encoder 1 (motor)
 - Channels `A` and `B` are connected to the encoder connector `P_ENC`, terminals `A` and `B`. 
