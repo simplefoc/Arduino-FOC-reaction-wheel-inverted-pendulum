@@ -26,7 +26,7 @@ But for me, the most exciting part of this project was the ability to use the Fi
 -  High torque to weight ratio
    - The lighter the better
 -  Lots of torque for low angular velocities
-   - No need to spin the motor to very high PRM to achieve high torques
+   - No need to spin the motor to very high RPM to achieve high torques
 -  No gearboxes and backlash
    - Very smooth operation = very stable pendulum
 
@@ -63,7 +63,7 @@ I have printed the pendulum in the PETG filament but there should be no real dif
 You will also find all the CAD files used in this project in the `CAD files` folder. I have included the Solidworks 2016 parts and the full assembly. Additionally all the parts are exported to STEP format for easier porting to the other CAD IDEs.
 
 > Beware: 
-I have designed hte holes on the pendulum arm and the wheel to match perfectly the motor the encoders I was using, so please check the dimensions of your motors and encoder holes before printing :D
+I have designed the holes on the pendulum arm and the wheel to match perfectly the motor the encoders I was using, so please check the dimensions of your motors and encoder holes before printing :D
 
 If you would prefer some other CAD format, let me know, maybe I can export it differently. 
 
