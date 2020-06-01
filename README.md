@@ -15,7 +15,7 @@ This is a very fun project in many ways, and it is intended:
 
 
 ### YouTube demonstration video :D
-<p align="">
+<p align="center">
 <a href="https://youtu.be/Ih-izQyXJCI">
 <img src="https://askuric.github.io/Arduino-FOC/extras/Images/youtube_pendulum.png"  height="320px">
 </a>
@@ -31,6 +31,32 @@ But for me, the most exciting part of this project was the ability to use the Fi
    - Very smooth operation = very stable pendulum
 
 So far, FOC has been restricted to high-end applications due to the complexity and the cost of the hardware mostly, but also due to the lack of user-friendly, well documented software. Therefore I am very happy to show you the projects like this one, which directly benefit the FOC algorithm and BLDC motors and encourage you to use these techniques in your projects as well. One of the very simple ways of starting (demonstrated in this video) is using the [SimpleFOC library and SimpleFOC shield](https://github.com/askuric/Arduino-FOC). 
+
+
+## Readme structure 
+- [What are the necessary components?](#what-are-the-necessary-components)
+  - [3D printed parts](#3d-printed-parts)
+  - [Hardware parts](#hardware-parts)
+  - [Actuator components](#electrical-components)
+    - [BLDC motor](#bldc-motor)
+    - [Position sensors](#position-sensors)
+  - [BLDC driver](#bldc-driver)
+  - [Table mount](#table-mount)
+- [Connecting all the components](#connecting-all-the-components)
+  - [Encoder 1 (motor)](#encoder-1-motor)
+  - [Encoder 2 (pendulum)](#encoder-2-pendulum)
+  - [Motor](#motor)
+- [Arduino code](#arduino-code)
+  - [Encoder 1 (motor) code](#encoder-1-motor-code)
+  - [Encoder 2 (pendulum) code](#encoder-2-pendulum-code)
+  - [Motor code](#motor-code)
+  - [Control algorithm code](#control-algorithm-code)
+      - [Stabilization](#stabilization)
+      - [Swing-up](#swing-up)
+      - [The integration](#the-integration)
+  - [Full Arduino code](#full-arduino-code)
+- [Contact](#contact)
+
 
 # What are the necessary components?
 Due to the using of the brushless motor and the SimpleFOC shield, this might be one of the simplest hardware setups of the reaction wheel inverted pendulum there is.
@@ -124,7 +150,7 @@ The only important thing is that the pendulum base is fixed, everything else is 
 # Connecting all the components
 In this project all the electronics components are:
 
-[Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) | [Arduino <span class="simple">Simple<span class="foc">FOC</span>Shield</span>](arduino_simplefoc_shield_showcase) | 2x [2AMT 103 encoder](https://www.mouser.fr/ProductDetail/CUI-Devices/AMT103-V?qs=%2Fha2pyFaduiAsBlScvLoAWHUnKz39jAIpNPVt58AQ0PVb84dpbt53g%3D%3D) | [iPower GM4108-120T](https://shop.iflight-rc.com/index.php?route=product/product&product_id=217&search=GM4108H-120T)
+[Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) | [Arduino <span class="simple">Simple<span class="foc">FOC</span>Shield</span>](arduino_simplefoc_shield_showcase) | 2x [AMT 103 encoder](https://www.mouser.fr/ProductDetail/CUI-Devices/AMT103-V?qs=%2Fha2pyFaduiAsBlScvLoAWHUnKz39jAIpNPVt58AQ0PVb84dpbt53g%3D%3D) | [iPower GM4108-120T](https://shop.iflight-rc.com/index.php?route=product/product&product_id=217&search=GM4108H-120T)
 --- | --- | --- | --- 
 <img src="images/arduino_uno.jpg" style="width:150px"> |  <img src="images/shield_to_v13.jpg" style="width:150px">  | <img src="images/AMT_103.jpg" style="width:150px">  | <img src="images/mot.jpg" style="width:150px"> 
 
