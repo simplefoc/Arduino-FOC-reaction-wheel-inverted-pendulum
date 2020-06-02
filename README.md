@@ -181,7 +181,7 @@ First thing you need to do is include the `SimpleFOC` library:
 Make sure you have the library installed. If you still don't have it please check the [get started page](getting_started).
 
 Also in this case, we are using two encoders so we will need to have a software interrupt library.
-I would suggest using `PciManager` library. If you have not installed it yet, you can do it using the Arduino library manager directly. Please check the `Encoder` class [docs](encoder) for more info.
+I would suggest using `PciManager` library. If you have not installed it yet, you can do it using the Arduino library manager directly. Please check the *SimpeFOClibrary*'s `Encoder` class [docs](https://askuric.github.io/Arduino-FOC/encoder) for more info.
 So once you have it please include it to the sketch:
 ```cpp
 // software interrupt library
@@ -211,7 +211,7 @@ In the `setup()` function we initialize the encoder and enable interrupts:
 ```
 And that is it, let's setup the pendulum encoder.
 
-<blockquote class="info">For more configuration parameters of the encoders please check the <code>Encoder</code> class <a href="encoder">docs</a>.</blockquote>
+<blockquote class="info">For more configuration parameters of the encoders please check the *SimpeFOClibrary*'s <code>Encoder</code> class <a href="https://askuric.github.io/Arduino-FOC/encoder">docs</a>.</blockquote>
 
 
 ## Encoder 2 (pendulum) code
@@ -293,7 +293,7 @@ void loop() {
 }
 ```
 Now we are able to read the two encoders and set the voltage to the motor, now we need to write the stabilization algorithm.
-<blockquote class="info">For more configuration parameters and control loops please check the <code>BLDCMotor</code> class <a href="motor_initialization">doc</a>.</blockquote>
+<blockquote class="info">For more configuration parameters and control loops please check the *SimpleFOClibrary*'s <code>BLDCMotor</code> class <a href="https://askuric.github.io/Arduino-FOC/motor_initialization">doc</a>.</blockquote>
 
 ## Control algorithm code
 
@@ -316,7 +316,7 @@ This is a very simple explanation of a relatively complex topic and I would like
 
 Also maybe interesting to say is that for a system like this one there is really no need to run it with the sample times less then 20ms. In my case I have run it at ~25ms, but you can go even to 50ms.
 
-<blockquote class="warning"><p class="heading">NOTE</p> The FOC algorithm <code>motor.loopFOC()</code> will run ~1ms but the control algorithm and the function <code>motor.move()</code> will be downsampled to ~25ms.</blockquote>
+<blockquote class="warning"><b>NOTE</b><br> The FOC algorithm <code>motor.loopFOC()</code> will run ~1ms but the control algorithm and the function <code>motor.move()</code> will be downsampled to ~25ms.</blockquote>
 
 #### Swing-up
 
