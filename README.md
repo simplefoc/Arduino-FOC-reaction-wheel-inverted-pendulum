@@ -1,8 +1,8 @@
 # Arduino field oriented control (FOC) reaction wheel inverted pendulum  
 
-![Test Compile](https://github.com/askuric/Arduino-FOC-reaction-wheel-inverted-pendulum/workflows/Library%20Compile/badge.svg)
+![Test Compile](https://github.com/simplefoc/Arduino-FOC-reaction-wheel-inverted-pendulum/workflows/Library%20Compile/badge.svg)
 
-This is a project of designing and controlling the reaction wheel inverted pendulum based entirely on Arduino [SimpleFOC library and SimpleFOC shield](https://github.com/askuric/Arduino-FOC). 
+This is a project of designing and controlling the reaction wheel inverted pendulum based entirely on Arduino [SimpleFOC library and SimpleFOC shield](https://github.com/simplefoc/Arduino-FOC). 
 
 <p align="center">
     <img src="images/swing-up.gif" height="230px">
@@ -17,7 +17,7 @@ This is a very fun project in many ways, and it is intended:
 ### YouTube demonstration video :D
 <p align="center">
 <a href="https://youtu.be/Ih-izQyXJCI">
-<img src="https://askuric.github.io/Arduino-FOC/extras/Images/youtube_pendulum.png"  height="320px">
+<img src="https://docs.simplefoc.com/extras/Images/youtube_pendulum.png"  height="320px">
 </a>
 </p>
 
@@ -30,7 +30,8 @@ But for me, the most exciting part of this project was the ability to use the Fi
 -  No gearboxes and backlash
    - Very smooth operation = very stable pendulum
 
-So far, FOC has been restricted to high-end applications due to the complexity and the cost of the hardware mostly, but also due to the lack of user-friendly, well documented software. Therefore I am very happy to show you the projects like this one, which directly benefit the FOC algorithm and BLDC motors and encourage you to use these techniques in your projects as well. One of the very simple ways of starting (demonstrated in this video) is using the [SimpleFOC library and SimpleFOC shield](https://github.com/askuric/Arduino-FOC). 
+So far, FOC has been restricted to high-end applications due to the complexity and the cost of the hardware mostly, but also due to the lack of user-friendly, well documented software. Therefore I am very happy to show you the projects like this one, which directly benefit the FOC algorithm and BLDC motors and encourage you to use these techniques in your projects as well. One of the very simple ways of starting (demonstrated in this video) is using the [SimpleFOC library and SimpleFOC shield](https://github.com/
+/Arduino-FOC). 
 
 
 ## Readme structure 
@@ -130,14 +131,14 @@ The main features these encoders are:
  - Low-cost `~20$`
 
 ### BLDC driver
-In this project I used the [SimpleFOCShield board](https://askuric.github.io/Arduino-FOC/arduino_simplefoc_shield_showcase) which is basically an Arduino shield which enables the usage of the FOC algorithm with the BLDC motors. It is practically plug & play in combination with the Arduino [SimpleFOC library](https://askuric.github.io/Ard.uino-FOC/arduino_simplefoc_library_showcase).
+In this project I used the [SimpleFOCShield board](https://docs.simplefoc.com/arduino_simplefoc_shield_showcase) which is basically an Arduino shield which enables the usage of the FOC algorithm with the BLDC motors. It is practically plug & play in combination with the Arduino [SimpleFOC library](https://docs.simplefoc.com/arduino_simplefoc_library_showcase).
 
 There are quiet a few boards out there that are in short a triple H-bridge motor drivers and the SimpleFOC library will be compatible with most of them. But for most of them the hardware setup will be a bit more complex. Here are some examples of the possible BLDC drives you could use:
 Examples | Description | Link | Price
 ---- | ---- | ---- | ---
-[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/shield_top_v13.png" height="100px">](https://askuric.github.io/simplefoc_shield_product)| Arduino SimpleFOCShield | [More info](https://askuric.github.io/simplefoc_shield_product) | 25$
-[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/l6234.jpg" height="100px">](https://www.ebay.com/itm/L6234-Breakout-Board/153204519965?hash=item23abb3741d:g:LE4AAOSwe35bctgg) | Dorotek L6234 breakout board| [Drotek](https://store-drotek.com/212-brushless-gimbal-controller-l6234.html), [Ebay](https://www.ebay.fr/itm/L6234-Breakout-Board-/153204519965) | 30$
-[<img src="https://askuric.github.io/Arduino-FOC/extras/Images/pinout.jpg" height="100px">](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | HMBGC V2.2 | [Ebay](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | 20$
+[<img src="https://docs.simplefoc.com/extras/Images/shield_top_v13.png" height="100px">](https://simplefoc.github.io/simplefoc_shield_product)| Arduino SimpleFOCShield | [More info](https://simplefoc.github.io/simplefoc_shield_product) | 25$
+[<img src="https://docs.simplefoc.com/extras/Images/l6234.jpg" height="100px">](https://www.ebay.com/itm/L6234-Breakout-Board/153204519965?hash=item23abb3741d:g:LE4AAOSwe35bctgg) | Dorotek L6234 breakout board| [Drotek](https://store-drotek.com/212-brushless-gimbal-controller-l6234.html), [Ebay](https://www.ebay.fr/itm/L6234-Breakout-Board-/153204519965) | 30$
+[<img src="https://docs.simplefoc.com/extras/Images/pinout.jpg" height="100px">](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | HMBGC V2.2 | [Ebay](https://www.ebay.com/itm/HMBGC-V2-0-3-Axle-Gimbal-Controller-Control-Plate-Board-Module-with-Sensor/351497840990?hash=item51d6e7695e:g:BAsAAOSw0QFXBxrZ:rk:1:pf:1) | 20$
 
 ## Table mount
 There are surely many ways to mount this pendulum to the stable surface, in my case I hade on my hands a very robust vacuum suction cup holder which works perfectly for this application. It is not the cheapest solution though.
@@ -181,7 +182,7 @@ First thing you need to do is include the `SimpleFOC` library:
 Make sure you have the library installed. If you still don't have it please check the [get started page](getting_started).
 
 Also in this case, we are using two encoders so we will need to have a software interrupt library.
-I would suggest using `PciManager` library. If you have not installed it yet, you can do it using the Arduino library manager directly. Please check the *SimpeFOClibrary*'s `Encoder` class [docs](https://askuric.github.io/Arduino-FOC/encoder) for more info.
+I would suggest using `PciManager` library. If you have not installed it yet, you can do it using the Arduino library manager directly. Please check the *SimpeFOClibrary*'s `Encoder` class [docs](https://simplefoc.github.io/Arduino-FOC/encoder) for more info.
 So once you have it please include it to the sketch:
 ```cpp
 // software interrupt library
@@ -211,7 +212,7 @@ In the `setup()` function we initialize the encoder and enable interrupts:
 ```
 And that is it, let's setup the pendulum encoder.
 
-<blockquote class="info">For more configuration parameters of the encoders please check the *SimpeFOClibrary*'s <code>Encoder</code> class <a href="https://askuric.github.io/Arduino-FOC/encoder">docs</a>.</blockquote>
+<blockquote class="info">For more configuration parameters of the encoders please check the *SimpeFOClibrary*'s <code>Encoder</code> class <a href="https://docs.simplefoc.com/encoder">docs</a>.</blockquote>
 
 
 ## Encoder 2 (pendulum) code
@@ -293,7 +294,7 @@ void loop() {
 }
 ```
 Now we are able to read the two encoders and set the voltage to the motor, now we need to write the stabilization algorithm.
-<blockquote class="info">For more configuration parameters and control loops please check the *SimpleFOClibrary*'s <code>BLDCMotor</code> class <a href="https://askuric.github.io/Arduino-FOC/motor_initialization">doc</a>.</blockquote>
+<blockquote class="info">For more configuration parameters and control loops please check the *SimpleFOClibrary*'s <code>BLDCMotor</code> class <a href="https://docs.simplefoc.com/motor_initialization">doc</a>.</blockquote>
 
 ## Control algorithm code
 
