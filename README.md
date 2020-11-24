@@ -332,7 +332,7 @@ The swingup implemented in this example is the simples one possible, that is alw
 
 This is hte code of the swing-up:
 ```cpp
-target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+target_voltage = -_sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
 ```
 What it does really is it checks which direction the pendulum is moving `sign(pendulum.getVelocity())` and sets the very high voltage value `motor.voltage_power_supply*0.4` in the opposite direction (`-`). 
 It means that the algorithm is going to try to accelerate the movement of the pendulum (because the pendulum acceleration is caused as the reaction of the motor acceleration, but inverse direction).
@@ -356,7 +356,7 @@ So the full control algorithm code looks like this:
       target_voltage =  40*pendulum_angle + 7*pendulum.getVelocity() + 0.3*motor.shaftVelocity();
     else // else do swing-up
       // sets 40% of the maximal voltage to the motor in order to swing up
-      target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+      target_voltage = -_sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
 
     // set the target voltage to the motor
     motor.move(target_voltage);
