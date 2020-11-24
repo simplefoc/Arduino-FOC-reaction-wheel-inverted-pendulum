@@ -246,20 +246,27 @@ And then instead of calling `pendulum.enableInterrupt()` function we use the `Pc
 And that is it the pendulum is ready, let's setup the motor.
 
 ## Motor code
-First we need to define the `BLDCMotor` class with the PWM pin numbers, number od pole pairs(`11`) of the motor and the driver enable pin.
+First we need to define the `BLDCMotor` class with the number of pole pairs(`11`) of the motor.
 
 ```cpp
 // define BLDC motor
-BLDCMotor motor = BLDCMotor(9, 10, 11, 11, 8);
+BLDCMotor motor = BLDCMotor(11);
 ```
-
 <blockquote class="warning">If you are not sure what your pole pairs number is please check the  <code>find_pole_pairs.ino</code> example.</blockquote>
 
-Then in the `setup()` we configure first the voltage of the power supply if it is not `12` Volts.
+Next we need to define the `BLDCDriver3PWM` class with the PWM pin numbers and the driver enable pin.
+```cpp
+// define BLDC driver
+BLDCDriver3PWM driver = BLDCDriver3PWM(9, 10, 11, 8);
+```
+
+Then in the `setup()` we configure first the voltage of the power supply if it is not `12` Volts and initialize and link the driver.
 ```cpp
   // power supply voltage
   // default 12V
-  motor.voltage_power_supply = 12;
+  driver.voltage_power_supply = 12;
+  driver.init();
+  motor.linkDriver(&driver);
 ```
 Then we tell the motor which control loop to run by specifying the `motor.controller` variable.
 ```cpp
@@ -372,7 +379,9 @@ For the full code I have just added a function `constrainAngle()` to constrain t
 
 
 // BLDC motor init
-BLDCMotor motor = BLDCMotor(9, 10, 11, 11, 8);
+BLDCMotor motor = BLDCMotor(11);
+// driver instance
+BLDCDriver3PWM driver = BLDCDriver3PWM(9, 10, 11, 8);
 //Motor encoder init
 Encoder encoder = Encoder(2, 3, 500);
 // interrupt routine 
@@ -391,7 +400,7 @@ PciListenerImp listenerPB(pendulum.pinB, doPB);
 
 void setup() {
   
-  // initialize motor encoder hardware
+  // initialise motor encoder hardware
   encoder.init();
   encoder.enableInterrupts(doA,doB);
   
@@ -406,13 +415,19 @@ void setup() {
   // link the motor to the encoder
   motor.linkSensor(&encoder);
   
+  // driver
+  driver.voltage_power_supply = 12; 
+  driver.init();
+  // link the driver and the motor
+  motor.linkDriver(&driver);
+
   // initialize motor
   motor.init();
   // align encoder and start FOC
   motor.initFOC();
 }
 
-// loop down-sampling counter
+// loop downsampling counter
 long loop_count = 0;
 
 void loop() {
@@ -430,7 +445,7 @@ void loop() {
       target_voltage = controllerLQR(pendulum_angle, pendulum.getVelocity(), motor.shaftVelocity());
     else // else do swing-up
       // sets 40% of the maximal voltage to the motor in order to swing up
-      target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+      target_voltage = -_sign(pendulum.getVelocity())*motor.voltage_limit*0.4;
 
     // set the target voltage to the motor
     motor.move(target_voltage);
@@ -461,7 +476,7 @@ float controllerLQR(float p_angle, float p_vel, float m_vel){
   float u =  40*p_angle + 7*p_vel + 0.3*m_vel;
   
   // limit the voltage set to the motor
-  if(abs(u) > motor.voltage_power_supply*0.7) u = sign(u)*motor.voltage_power_supply*0.7;
+  if(abs(u) > motor.voltage_limit*0.7) u = sign(u)*motor.voltage_limit*0.7;
   
   return u;
 }

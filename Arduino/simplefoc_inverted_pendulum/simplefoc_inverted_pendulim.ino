@@ -5,7 +5,9 @@
 
 
 // BLDC motor init
-BLDCMotor motor = BLDCMotor(9, 10, 11, 11, 8);
+BLDCMotor motor = BLDCMotor(11);
+// driver instance
+BLDCDriver3PWM driver = BLDCDriver3PWM(9, 10, 11, 8);
 //Motor encoder init
 Encoder encoder = Encoder(2, 3, 500);
 // interrupt routine 
@@ -39,6 +41,12 @@ void setup() {
   // link the motor to the encoder
   motor.linkSensor(&encoder);
   
+  // driver
+  driver.voltage_power_supply = 12; 
+  driver.init();
+  // link the driver and the motor
+  motor.linkDriver(&driver);
+
   // initialize motor
   motor.init();
   // align encoder and start FOC
@@ -63,7 +71,7 @@ void loop() {
       target_voltage = controllerLQR(pendulum_angle, pendulum.getVelocity(), motor.shaftVelocity());
     else // else do swing-up
       // sets 40% of the maximal voltage to the motor in order to swing up
-      target_voltage = -sign(pendulum.getVelocity())*motor.voltage_power_supply*0.4;
+      target_voltage = -_sign(pendulum.getVelocity())*motor.voltage_limit*0.4;
 
     // set the target voltage to the motor
     motor.move(target_voltage);
@@ -94,7 +102,7 @@ float controllerLQR(float p_angle, float p_vel, float m_vel){
   float u =  40*p_angle + 7*p_vel + 0.3*m_vel;
   
   // limit the voltage set to the motor
-  if(abs(u) > motor.voltage_power_supply*0.7) u = sign(u)*motor.voltage_power_supply*0.7;
+  if(abs(u) > motor.voltage_limit*0.7) u = sign(u)*motor.voltage_limit*0.7;
   
   return u;
 }
