@@ -55,6 +55,7 @@ void setup() {
 
 // loop downsampling counter
 long loop_count = 0;
+float target_voltage;
 
 void loop() {
   // ~1ms 
@@ -66,7 +67,6 @@ void loop() {
     // calculate the pendulum angle 
     float pendulum_angle = constrainAngle(pendulum.getAngle() + M_PI);
 
-    float target_voltage;
     if( abs(pendulum_angle) < 0.5 ) // if angle small enough stabilize
       target_voltage = controllerLQR(pendulum_angle, pendulum.getVelocity(), motor.shaftVelocity());
     else // else do swing-up
@@ -102,7 +102,7 @@ float controllerLQR(float p_angle, float p_vel, float m_vel){
   float u =  40*p_angle + 7*p_vel + 0.3*m_vel;
   
   // limit the voltage set to the motor
-  if(abs(u) > motor.voltage_limit*0.7) u = sign(u)*motor.voltage_limit*0.7;
+  if(abs(u) > motor.voltage_limit*0.7) u = _sign(u)*motor.voltage_limit*0.7;
   
   return u;
 }
