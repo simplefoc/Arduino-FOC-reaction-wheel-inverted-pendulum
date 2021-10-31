@@ -272,10 +272,10 @@ Then in the `setup()` we configure first the voltage of the power supply if it i
 Then we tell the motor which control loop to run by specifying the `motor.controller` variable.
 ```cpp
   // set control loop type to be used
-  // ControlType::voltage
-  // ControlType::velocity
-  // ControlType::angle
-  motor.controller = ControlType::voltage;
+  // MotionControlType::torque
+  // MotionControlType::velocity
+  // MotionControlType::angle
+  motor.controller = MotionControlType::torque;
 ```
 <blockquote class="info">For more information about the voltage control loop please check the  <a href="voltage_loop">doc</a>.</blockquote>
 
@@ -411,7 +411,7 @@ void setup() {
   PciManager.registerListener(&listenerPB);
   
   // set control loop type to be used
-  motor.controller = ControlType::voltage;
+  motor.controller = MotionControlType::torque;
 
   // link the motor to the encoder
   motor.linkSensor(&encoder);
@@ -437,7 +437,9 @@ void loop() {
 
   // control loop each ~25ms
   if(loop_count++ > 25){
-    
+    // updating the pendulum angle sensor
+    // NECESSARY for library versions > v2.2 
+    pendulum.update();
     // calculate the pendulum angle 
     float pendulum_angle = constrainAngle(pendulum.getAngle() + M_PI);
 

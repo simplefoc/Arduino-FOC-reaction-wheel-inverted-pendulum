@@ -36,7 +36,7 @@ void setup() {
   PciManager.registerListener(&listenerPB);
   
   // set control loop type to be used
-  motor.controller = ControlType::voltage;
+  motor.controller = MotionControlType::torque;
 
   // link the motor to the encoder
   motor.linkSensor(&encoder);
@@ -63,6 +63,9 @@ void loop() {
 
   // control loop each ~25ms
   if(loop_count++ > 25){
+    // updating the pendulum angle sensor
+    // NECESSARY for library versions > v2.2 
+    pendulum.update();
     
     // calculate the pendulum angle 
     float pendulum_angle = constrainAngle(pendulum.getAngle() + M_PI);
