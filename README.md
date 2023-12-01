@@ -1,4 +1,4 @@
-# Arduino field oriented control (FOC) reaction wheel inverted pendulum  
+# Arduino field oriented control (FOC) reaction wheel inverted pendulum   
 
 ![Test Compile](https://github.com/simplefoc/Arduino-FOC-reaction-wheel-inverted-pendulum/workflows/Library%20Compile/badge.svg)
 
